@@ -28,20 +28,11 @@ public:
 	void AddR(ListOfNumbers *n);
 	void AddR(int v);
 
+	// Requests a number
+	void GetNumber();
+	
 	// Finds a object	
-	void Find(int v);
+	void Find(ListOfNumbers *n);
 	void FindR(int v);	
 	
 };
-//ListOfNumbers::ListOfNumbers()
-//{
-	//next = NULL;
-//}
-//void ListOfNumbers::AddList()
-//{
-//	next = NULL;
-////	ListOfNumbers *n = this;
-	//while (n->next != NULL)
-	//	n = n->next;
-//};
-
