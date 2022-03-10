@@ -76,7 +76,18 @@ void ListOfNumbers::AddR(int v)
 
     AddR(temp);
 }
-void ListOfNumbers::Find(int v)
+void ListOfNumbers::GetNumber()
+{
+    int inputted_number;
+    cout << "Please enter a number:\n";
+    cin >> number;
+    SetValue(inputted_number);
+}
+void ListOfNumbers::Find(ListOfNumbers *n)
 {
     ListOfNumbers *current = this;
-    while (current != 6) 
+    while (current->next == this) 
+        cout << current;
+        //current = current->next;
+    //current->next = (n);
+};
