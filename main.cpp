@@ -1,6 +1,6 @@
 #include <iostream>
 //#include "ListOfNumbers.h"
-#include "ungk.h"
+#include "ListOfNumbers2.h"
 using namespace std;
 
 int main()
@@ -23,4 +23,16 @@ int main()
  	
     cout << "List 2 : " << endl;
  	c->PrintList();
+    cout << "Would you like to add a number to the list? (1 = yes, 2 = no):\n";
+    int decision;
+    cin >> decision;
+    if (decision == 1)
+    {
+            cout << "Adding Number: " << endl;
+ 	        void Add(int v);
+    }
+    else
+    {
+        return 0;   
+    }
 }
