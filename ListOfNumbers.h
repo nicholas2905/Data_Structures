@@ -25,14 +25,19 @@ public:
 	// Adds a new item to the list
 	void Add(ListOfNumbers *n);
 	void Add(int v);
-	void AddR(ListOfNumbers *n);
+	void AddRPointer(ListOfNumbers *n);
 	void AddR(int v);
 
 	// Requests a number
-	void GetNumber();
-	
+	int GetNumber();
+
 	// Finds a object	
-	void Find(ListOfNumbers *n);
-	void FindR(int v);	
-	
+	ListOfNumbers * Find(int number);
+	ListOfNumbers * FindR(int number);
+
+	// Creates a new list of numbers
+	void NewListOfNumbers();
+
+	// Deletes a number in the list
+	ListOfNumbers* Delete_Number (int deleting_number);
 };
