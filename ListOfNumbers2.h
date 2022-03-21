@@ -128,8 +128,30 @@ void ListOfNumbers::NewListOfNumbers()
     temp = GetNumber();
     AddR(temp);
 };
+ListOfNumbers* ListOfNumbers::Delete_All_Items()
+{
+    ListOfNumbers* temp;
+    ListOfNumbers* NextCurrent;
+    ListOfNumbers* current = this;
+    NextCurrent = current->next;
+    if (current != NULL)
+    {
+        while (temp!= NULL)
+        {
+            temp = temp->next;
+        }
+        current->next = NULL;
+        NextCurrent = next;
+        delete NextCurrent;
+        current = NULL;
+    }
+
+};
 ListOfNumbers* ListOfNumbers::Delete_Number (int delete_number)
 {
-
-
+    ListOfNumbers* temp;
+    ListOfNumbers* tempNext;
+    ListOfNumbers* previous;
+    temp = FindR (delete_number);
+    tempNext = temp->next;
 };
