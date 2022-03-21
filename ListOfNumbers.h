@@ -40,4 +40,7 @@ public:
 
 	// Deletes a number in the list
 	ListOfNumbers* Delete_Number (int deleting_number);
+	
+	// Deletes all numbers in the list
+	ListOfNumbers* Delete_All_Items ();
 };
