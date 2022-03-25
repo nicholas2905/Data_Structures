@@ -34,13 +34,19 @@ public:
 	// Finds a object	
 	ListOfNumbers * Find(int number);
 	ListOfNumbers * FindR(int number);
+	ListOfNumbers * Find_Smallest_Number();
+	ListOfNumbers * Find_Largest_Number();
+
 
 	// Creates a new list of numbers
 	void NewListOfNumbers();
 
 	// Deletes a number in the list
 	ListOfNumbers* Delete_Number (int deleting_number);
-	
+
 	// Deletes all numbers in the list
 	ListOfNumbers* Delete_All_Items ();
+
+	// Identifies the previous element in the list
+	void previous();
 };
