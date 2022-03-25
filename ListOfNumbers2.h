@@ -43,6 +43,8 @@ std::ostream & operator << (std::ostream &out, const ListOfNumbers &a)
     out << "List of Numbers Value = " << a.number;
     return out;
 };
+
+//Adds a number to the list (pointer)
 void ListOfNumbers::Add(ListOfNumbers *n)
 {
     ListOfNumbers *current = this;
@@ -53,12 +55,15 @@ void ListOfNumbers::Add(ListOfNumbers *n)
     current->SetNext(n);
 };
 
+//Adds a number to the list
 void ListOfNumbers::Add(int v)
 {
     ListOfNumbers *temp = new ListOfNumbers(v);
 
     Add(temp);
 };
+
+//Adds a number to the list (recursive) (pointer)
 void ListOfNumbers::AddRPointer(ListOfNumbers *n)
 {
     if (next == NULL)
@@ -70,12 +75,16 @@ void ListOfNumbers::AddRPointer(ListOfNumbers *n)
         next->AddRPointer(n);
     }
 };
+
+//Adds a number to the list (recursive)
 void ListOfNumbers::AddR(int v)
 {
     ListOfNumbers *temp = new ListOfNumbers(v);
 
     AddRPointer(temp);
 };
+
+//Gets a number
 int ListOfNumbers::GetNumber()
 {
     int temp;
@@ -83,6 +92,8 @@ int ListOfNumbers::GetNumber()
     cin >> temp;
     return temp;
 };
+
+//Finds a number in the list
 ListOfNumbers* ListOfNumbers::Find(int find_number)
 {
     ListOfNumbers *current = this;
@@ -103,6 +114,8 @@ ListOfNumbers* ListOfNumbers::Find(int find_number)
         return NULL;
     }
 };
+
+//Finds a number in the list (recursive)
 ListOfNumbers* ListOfNumbers::FindR(int find_number)
 {
     if (find_number == number)
@@ -119,15 +132,46 @@ ListOfNumbers* ListOfNumbers::FindR(int find_number)
         {
             return NULL;
         };
-    }
-        
+    }  
 };
+
+//Finds the smallest number in the list
+ListOfNumbers * ListOfNumbers::Find_Smallest_Number()
+{
+    ListOfNumbers* current = this->next;
+    ListOfNumbers* min = this;
+    while(current != NULL)
+        if (current->number <= min -> number)
+        {
+            min = current;
+        }
+        current = current->next;
+    return min;
+};
+
+//Finds the largest number in the list
+ListOfNumbers * ListOfNumbers::Find_Largest_Number()
+{
+    ListOfNumbers* current = this->next;
+    ListOfNumbers* max = this;
+    while(current != NULL)
+        if (current->number >= max -> number)
+        {
+            max = current;
+        }
+        current = current->next;
+    return max;
+};
+
+//Creates a new list of numbers
 void ListOfNumbers::NewListOfNumbers()
 {
     int temp;
-    temp = GetNumber();
+    temp = GetNumber(); //Void getnumber is used so that the user inputs a number
     AddR(temp);
 };
+
+//Deletes all the items in the list
 ListOfNumbers* ListOfNumbers::Delete_All_Items()
 {
     ListOfNumbers* temp;
@@ -145,8 +189,9 @@ ListOfNumbers* ListOfNumbers::Delete_All_Items()
         delete NextCurrent;
         current = NULL;
     }
-
 };
+
+//Deletes a number in the list
 ListOfNumbers* ListOfNumbers::Delete_Number (int delete_number)
 {
     ListOfNumbers* temp;
