@@ -48,7 +48,7 @@ std::ostream & operator << (std::ostream &out, const ListOfNumbers &a)
 void ListOfNumbers::Add(ListOfNumbers *n)
 {
     ListOfNumbers *current = this;
-    while (current != NULL)
+    while (current->next != NULL)
     {
         current = current->next;
     }
