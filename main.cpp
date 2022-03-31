@@ -13,15 +13,22 @@ int main()
  	a->SetNext(b);
  	b->SetNext(c);
  	
-    cout << "Values : " << endl;
+   	 cout << "Values : " << endl;
  	a->PrintItem();
  	b->PrintItem();
  	c->PrintItem();
  	
-    cout << "List 1 : " << endl;
+    	cout << "List a : " << endl;
  	a->PrintList();
  	
-    cout << "List 2 : " << endl;
+    	cout << "List c : " << endl;
  	c->PrintList();
-    	a->NewListOfNumbers();
+	
+	cout << "Test the Add Method : " << endl;
+	a->Add(100);
+	a->PrintList();
+
+	cout << "Test the AddR Method " << endl;
+	a->AddR(new ListOfNumbers(200));
+	a->PrintList();
 }
