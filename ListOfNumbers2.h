@@ -1,7 +1,59 @@
 #include <iostream>
-#include "ListOfNumbers.h"
+//#include "ListOfNumbers.h"
 using namespace std;
 
+class ListOfNumbers 
+{
+private:
+	int number;
+	ListOfNumbers *next;
+public:
+
+	ListOfNumbers();
+
+	ListOfNumbers(int v);
+
+	void SetValue(int v);
+
+	void SetNext(ListOfNumbers *n);
+
+    // Requests a number
+	int GetValue();
+    ListOfNumbers* GetNext();
+
+	// Prints a single item’s number
+	void PrintItem();
+
+	// Prints the whole list
+	void PrintList();
+
+	// Add Method
+	void Add(ListOfNumbers *n);
+	void Add(int v);
+
+    // Recursive Add Method
+	void AddR(ListOfNumbers *n);
+	void AddR(int v);
+
+	// Find Method	
+	ListOfNumbers * Find(int number);
+
+    //Recursive Find Method
+	ListOfNumbers * FindR(int number);
+
+	ListOfNumbers * Find_Smallest_Number();
+	ListOfNumbers * Find_Largest_Number();
+
+    // Deletes all items in the list
+	ListOfNumbers* Delete_All_Items ();
+
+    // Removes a single item in the list
+	ListOfNumbers* Remove (int value);
+
+	// Creates a new list of numbers
+	void NewListOfNumbers();
+
+};
 
 ListOfNumbers::ListOfNumbers()
 {
@@ -22,49 +74,53 @@ void ListOfNumbers::SetNext(ListOfNumbers *n)
 {
     next = n;
 };
+
 // Prints a single item’s number
 void ListOfNumbers::PrintItem()
 {
-    cout << "Number = " << number << "      [" << this << " ; " << next << "]" << endl;
+    // The function displays the item, the current address, and the address of the next item
+    cout << "Number = " << number << "      [Current Address: " << this << " ; Next Address: " << next << "]" << endl;
 };
+
 // Prints the whole list
 void ListOfNumbers::PrintList()
 {
+    // Pointer current is pointing to the location of stored element
     ListOfNumbers *current = this;
 
-    while (current != NULL)
+    while (current != NULL) // The list can only be printed if there are items inside
     {
-        cout << current->number << "      [" << current << "]" << endl;
+        current->PrintItem(); // PrintItem() will execute
         current = current->next;
     }
-};
-std::ostream & operator << (std::ostream &out, const ListOfNumbers &a)
-{
-    out << "List of Numbers Value = " << a.number;
-    return out;
+    if (current == NULL) // Case where list is empty
+    {
+        cout << "\nThere are no items in the list\n";
+        return;
+    }
 };
 
-//Adds a number to the list (pointer)
+// Add method (pointer)
 void ListOfNumbers::Add(ListOfNumbers *n)
 {
     ListOfNumbers *current = this;
     while (current->next != NULL)
     {
-        current = current->next;
+        current = current->next; // The pointer current will move on to the next
     }
-    current->SetNext(n);
+    current->next = n;
 };
 
-//Adds a number to the list
+// Adds a number to the list
 void ListOfNumbers::Add(int v)
 {
     ListOfNumbers *temp = new ListOfNumbers(v);
 
-    Add(temp);
+    Add(temp); // Add method (pointer)
 };
 
-//Adds a number to the list (recursive) (pointer)
-void ListOfNumbers::AddRPointer(ListOfNumbers *n)
+// Adds a number to the list (recursive) (pointer)
+void ListOfNumbers::AddR(ListOfNumbers *n)
 {
     if (next == NULL)
     {
@@ -72,7 +128,7 @@ void ListOfNumbers::AddRPointer(ListOfNumbers *n)
     }
     else
     {
-        next->AddRPointer(n);
+        next->AddR(n);
     }
 };
 
@@ -81,16 +137,7 @@ void ListOfNumbers::AddR(int v)
 {
     ListOfNumbers *temp = new ListOfNumbers(v);
 
-    AddRPointer(temp);
-};
-
-//Gets a number
-int ListOfNumbers::GetNumber()
-{
-    int temp;
-    cout << "Please enter a number:\n";
-    cin >> temp;
-    return temp;
+    AddR(temp);
 };
 
 //Finds a number in the list
@@ -135,43 +182,7 @@ ListOfNumbers* ListOfNumbers::FindR(int find_number)
     }  
 };
 
-//Finds the smallest number in the list
-ListOfNumbers * ListOfNumbers::Find_Smallest_Number()
-{
-    ListOfNumbers* current = this->next;
-    ListOfNumbers* min = this;
-    while(current != NULL)
-        if (current->number <= min -> number)
-        {
-            min = current;
-        }
-        current = current->next;
-    return min;
-};
-
-//Finds the largest number in the list
-ListOfNumbers * ListOfNumbers::Find_Largest_Number()
-{
-    ListOfNumbers* current = this->next;
-    ListOfNumbers* max = this;
-    while(current != NULL)
-        if (current->number >= max -> number)
-        {
-            max = current;
-        }
-        current = current->next;
-    return max;
-};
-
-//Creates a new list of numbers
-void ListOfNumbers::NewListOfNumbers()
-{
-    int temp;
-    temp = GetNumber(); //Void getnumber is used so that the user inputs a number
-    AddR(temp);
-};
-
-//Deletes all the items in the list
+// Deletes all the items in the list
 ListOfNumbers* ListOfNumbers::Delete_All_Items()
 {
     ListOfNumbers* temp;
@@ -192,11 +203,76 @@ ListOfNumbers* ListOfNumbers::Delete_All_Items()
 };
 
 //Deletes a number in the list
-ListOfNumbers* ListOfNumbers::Delete_Number (int delete_number)
+ListOfNumbers* ListOfNumbers::Remove (int delete_number)
 {
     ListOfNumbers* temp;
     ListOfNumbers* tempNext;
     ListOfNumbers* previous;
     temp = FindR (delete_number);
     tempNext = temp->next;
+    return temp;
 };
+
+// C;ass relating to sortlist
+class Sortlist
+{
+private:
+	ListOfNumbers *head;
+public:
+    Sortlist (ListOfNumbers* v)
+    {
+        head = v;
+    }
+	void sortList();
+    void PrintList();
+};
+
+void Sortlist::sortList()
+{
+    // Current points to head
+    ListOfNumbers* current = head, * index = NULL;
+    int temp;
+
+    if (head == NULL)
+    {
+        return;
+    }
+    else
+    {
+        while (current != NULL)
+        {
+            // Node index will point to node next to current
+            index = current->GetNext();
+
+            while (index != NULL)
+            {
+                // The data will be swapped if (current node data) > (index node data)
+                if (current->GetValue() > index->GetValue())
+                {
+                    temp = current->GetValue();
+                    current->SetValue(index->GetValue()); 
+                    index->SetValue(temp);
+                }
+                index = index->GetNext();
+            }
+            current = current->GetNext();
+        }
+    }
+}
+// Displays all the nodes present in the list
+void Sortlist::PrintList()
+{
+    // Current will point to head
+    ListOfNumbers* current = head;
+    if (head == NULL) // Case where there is nothing in the list
+    {
+        cout << "The list is empty\n";
+        return;
+    }
+    while (current != NULL) // Case where the list is not empty
+    {
+        cout << "Number = " << current->GetValue() << endl;
+        current = current->GetNext();
+    }
+    cout << endl;
+}
