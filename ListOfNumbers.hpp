@@ -1,5 +1,4 @@
 #include <iostream>
-//#include "ListOfNumbers.h"
 using namespace std;
 
 class ListOfNumbers 
