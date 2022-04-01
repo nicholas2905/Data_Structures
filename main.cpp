@@ -1,8 +1,8 @@
 #include <iostream>
-//#include "ListOfNumbers.h"
-#include "ListOfNumbers2.h"
+#include "ListOfNumbers.hpp"
 using namespace std;
 
+// Main function
 int main()
 {
 	ListOfNumbers *a,*b,*c;
@@ -13,22 +13,39 @@ int main()
  	a->SetNext(b);
  	b->SetNext(c);
  	
-   	 cout << "Values : " << endl;
+    cout << "Values : " << endl;
  	a->PrintItem();
  	b->PrintItem();
  	c->PrintItem();
  	
-    	cout << "List a : " << endl;
+    cout << "List a : " << endl;
  	a->PrintList();
  	
-    	cout << "List c : " << endl;
+    cout << "\nList c : " << endl;
  	c->PrintList();
-	
-	cout << "Test the Add Method : " << endl;
-	a->Add(100);
-	a->PrintList();
 
-	cout << "Test the AddR Method " << endl;
-	a->AddR(new ListOfNumbers(200));
-	a->PrintList();
+    cout << "Add method (test) " << endl;
+    a->Add(new ListOfNumbers(45));
+    a->PrintList();
+
+    cout << "AddR method (test) " << endl;
+    a->AddR(new ListOfNumbers(3));
+    a->PrintList();
+
+    cout << "Sort method (test) " << endl;
+    Sortlist* s = new Sortlist (a);
+    s->sortList();
+
+    // Displays the sorted list
+    cout << "The Sorted List " << endl;
+    s->PrintList();
+}
+
+// Gets a number
+int GetNumber()
+{
+    int temp;
+    cout << "Please enter a number\n"; // User inputs a umber (temp)
+    cin >> temp;
+    return temp;
 }
