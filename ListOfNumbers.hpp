@@ -131,7 +131,7 @@ void ListOfNumbers::AddR(ListOfNumbers *n)
     }
 };
 
-//Adds a number to the list (recursive)
+// Adds a number to the list (recursive)
 void ListOfNumbers::AddR(int v)
 {
     ListOfNumbers *temp = new ListOfNumbers(v);
@@ -139,11 +139,11 @@ void ListOfNumbers::AddR(int v)
     AddR(temp);
 };
 
-//Finds a number in the list
+// Finds a number in the list
 ListOfNumbers* ListOfNumbers::Find(int find_number)
 {
     ListOfNumbers *current = this;
-    if (find_number == number)
+    if (find_number == current -> number)
         {
             return current;
         }
@@ -164,13 +164,13 @@ ListOfNumbers* ListOfNumbers::Find(int find_number)
 //Finds a number in the list (recursive)
 ListOfNumbers* ListOfNumbers::FindR(int find_number)
 {
-    if (find_number == number)
+    if (find_number == this -> number)
         {
             return this;
         }
     else
     {
-        if (next != NULL)
+        if (this -> next != NULL)
         {
             return next -> FindR(find_number);
         }
@@ -179,7 +179,7 @@ ListOfNumbers* ListOfNumbers::FindR(int find_number)
             return NULL;
         };
     }  
-};
+};  
 
 // Deletes all the items in the list
 ListOfNumbers* ListOfNumbers::Delete_All_Items()
@@ -207,18 +207,23 @@ ListOfNumbers* ListOfNumbers::Remove (int delete_number)
     ListOfNumbers* temp;
     ListOfNumbers* tempNext;
     ListOfNumbers* previous;
+    previous = this;
+    if (previous -> number == delete_number)
+    {
+        previous = this -> next;
+    }
     temp = FindR (delete_number);
     tempNext = temp->next;
     return temp;
 };
 
-// C;ass relating to sortlist
-class Sortlist
+// Class relating to sortlist
+class SortList
 {
 private:
 	ListOfNumbers *head;
 public:
-    Sortlist (ListOfNumbers* v)
+    SortList (ListOfNumbers* v)
     {
         head = v;
     }
@@ -226,10 +231,11 @@ public:
     void PrintList();
 };
 
-void Sortlist::sortList()
+void SortList::sortList()
 {
     // Current points to head
-    ListOfNumbers* current = head, * index = NULL;
+    ListOfNumbers* current = head;
+    ListOfNumbers* index = NULL;
     int temp;
 
     if (head == NULL)
@@ -259,7 +265,7 @@ void Sortlist::sortList()
     }
 }
 // Displays all the nodes present in the list
-void Sortlist::PrintList()
+void SortList::PrintList()
 {
     // Current will point to head
     ListOfNumbers* current = head;
