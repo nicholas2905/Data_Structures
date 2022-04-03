@@ -240,7 +240,7 @@ ListOfNumbers*  ListOfNumbers::Remove(int remValue) {
     Node* prev = this -> head; 
     Node* current = this -> head -> next; 
 
-    if (this == NULL) 
+    if (head == NULL) 
     {
         return NULL;
     }
