@@ -1,16 +1,55 @@
 #include <iostream>
 using namespace std;
 
+class Node 
+{
+public:
+    int data;
+    Node * next;
+    Node();
+
+    Node(int v);
+
+        void SetValue(int v);
+        void SetNext(Node * n);
+
+    int getValue();
+    Node* getNext();
+
+    // Prints a single item's number
+    void PrintItem();
+
+};
 class ListOfNumbers 
 {
 private:
-	int number;
-	ListOfNumbers *next;
+    Node * head;
 public:
+    // Prints the whole list
+	void PrintList();
 
 	ListOfNumbers();
+    ListOfNumbers(Node * n);
 
-	ListOfNumbers(int v);
+    // Add Method
+	void Add(Node * n);
+	void Add(int n);
+
+    // Recursive Add Method
+	void AddR(Node * n);
+	void AddR(int n);
+
+    // Find Method	
+	Node * Find(int value);
+
+    // Recursive Find Method
+	Node * FindR(int value);
+    
+    // Deletes all items in the list
+    void RemoveAll();
+
+    // Removes a single item in the list
+	ListOfNumbers * Remove (int value);
 
 	void SetValue(int v);
 
@@ -18,132 +57,132 @@ public:
 
     // Requests a number
 	int GetValue();
-    ListOfNumbers* GetNext();
+    ListOfNumbers * GetNext();
 
 	// Prints a single item’s number
 	void PrintItem();
 
-	// Prints the whole list
-	void PrintList();
-
-	// Add Method
-	void Add(ListOfNumbers *n);
-	void Add(int v);
-
-    // Recursive Add Method
-	void AddR(ListOfNumbers *n);
-	void AddR(int v);
-
-	// Find Method	
-	ListOfNumbers * Find(int number);
-
-    //Recursive Find Method
-	ListOfNumbers * FindR(int number);
-
-	ListOfNumbers * Find_Smallest_Number();
-	ListOfNumbers * Find_Largest_Number();
-
-    // Deletes all items in the list
-	ListOfNumbers* Delete_All_Items ();
-
-    // Removes a single item in the list
-	ListOfNumbers* Remove (int value);
-
-	// Creates a new list of numbers
-	void NewListOfNumbers();
+    // Sorting Method
+    void SortList();
+    void Swap(Node * n1, Node * n2);   
 
 };
 
-ListOfNumbers::ListOfNumbers()
+Node::Node()
 {
-    number = 0;
+    data = 0;
     next = NULL;
 };
-ListOfNumbers::ListOfNumbers(int v)
+Node::Node(int v)
 {
-    number = v;
+    data = v;
     next = NULL;
 };
 
-void ListOfNumbers::SetValue(int v)
+void Node::SetValue(int v)
 {
-    number = v;
+    data = v;
 };
-void ListOfNumbers::SetNext(ListOfNumbers *n)
+void Node::SetNext(Node *n)
 {
     next = n;
 };
 
+int Node::getValue()
+{
+    return data;
+};
+Node * Node::getNext()
+{
+    return next;
+};
+
 // Prints a single item’s number
-void ListOfNumbers::PrintItem()
+void Node::PrintItem()
 {
     // The function displays the item, the current address, and the address of the next item
-    cout << "Number = " << number << "      [Current Address: " << this << " ; Next Address: " << next << "]" << endl;
+    cout << "Number = " << data << "      [Current Address: " << this << " ; Next Address: " << next << "]" << endl;
 };
 
 // Prints the whole list
 void ListOfNumbers::PrintList()
 {
     // Pointer current is pointing to the location of stored element
-    ListOfNumbers *current = this;
+    Node * current = this -> head;
 
     while (current != NULL) // The list can only be printed if there are items inside
     {
-        current->PrintItem(); // PrintItem() will execute
-        current = current->next;
-    }
-    if (current == NULL) // Case where list is empty
-    {
-        cout << "\nThere are no items in the list\n";
-        return;
+        current -> PrintItem(); // PrintItem() will execute
+        current = current -> next;
     }
 };
 
-// Add method (pointer)
-void ListOfNumbers::Add(ListOfNumbers *n)
+ListOfNumbers::ListOfNumbers()
 {
-    ListOfNumbers *current = this;
-    while (current->next != NULL)
+    head = new Node();
+};
+
+ListOfNumbers::ListOfNumbers(Node * n)
+{
+    head = n;
+};
+
+// Add method (pointer)
+void ListOfNumbers::Add(Node * n)
+{
+    if (head == NULL)
     {
-        current = current->next; // The pointer current will move on to the next
+        head = n;
     }
-    current->next = n;
+    else
+    {
+        Node * current = this -> head;
+        while (current -> next != NULL)
+        {
+            current = current -> next; // The pointer current will move on to the next
+        }
+    }
 };
 
 // Adds a number to the list
 void ListOfNumbers::Add(int v)
 {
-    ListOfNumbers *temp = new ListOfNumbers(v);
-
+    Node * temp = new Node(v);
     Add(temp); // Add method (pointer)
 };
 
 // Adds a number to the list (recursive) (pointer)
-void ListOfNumbers::AddR(ListOfNumbers *n)
+void ListOfNumbers::AddR(Node * n)
 {
-    if (next == NULL)
+    if (head == NULL)
     {
-        next = n;
+        head = n;
     }
     else
     {
-        next->AddR(n);
+        if (head -> next == NULL)
+        {
+            head -> next = n;
+        }
+        else
+        {
+            ListOfNumbers * current = new ListOfNumbers(head -> next);
+            current -> AddR(n);
+        }
     }
 };
 
 // Adds a number to the list (recursive)
-void ListOfNumbers::AddR(int v)
+void ListOfNumbers::AddR(int n)
 {
-    ListOfNumbers *temp = new ListOfNumbers(v);
-
-    AddR(temp);
+    AddR(new Node(n));
 };
 
 // Finds a number in the list
-ListOfNumbers* ListOfNumbers::Find(int find_number)
+Node * ListOfNumbers::Find(int find_number)
 {
-    ListOfNumbers *current = this;
-    if (find_number == current -> number)
+    Node * current = this -> head;
+    if (find_number == head -> data)
         {
             return current;
         }
@@ -152,7 +191,7 @@ ListOfNumbers* ListOfNumbers::Find(int find_number)
         while (current -> next != NULL)
         {
             current = current -> next;
-            if (find_number == current -> number)
+            if (find_number == current -> data)
             {
                 return current;
             }
@@ -161,18 +200,19 @@ ListOfNumbers* ListOfNumbers::Find(int find_number)
     }
 };
 
-//Finds a number in the list (recursive)
-ListOfNumbers* ListOfNumbers::FindR(int find_number)
+// inds a number in the list (recursive)
+Node * ListOfNumbers::FindR(int find_number)
 {
-    if (find_number == this -> number)
+    if (find_number == head -> data)
         {
-            return this;
+            return this -> head;
         }
     else
     {
-        if (this -> next != NULL)
+        if (head -> next != NULL)
         {
-            return next -> FindR(find_number);
+            ListOfNumbers * current = new ListOfNumbers(head -> next);
+            return current -> FindR(find_number);
         }
         else
         {
@@ -181,103 +221,144 @@ ListOfNumbers* ListOfNumbers::FindR(int find_number)
     }  
 };  
 
-// Deletes all the items in the list
-ListOfNumbers* ListOfNumbers::Delete_All_Items()
+//Deletes all the items in the list
+void ListOfNumbers::RemoveAll()
 {
-    ListOfNumbers* temp;
-    ListOfNumbers* NextCurrent;
-    ListOfNumbers* current = this;
-    NextCurrent = current->next;
+    Node* current = this->head;   
     if (current != NULL)
     {
-        while (temp!= NULL)
-        {
-            temp = temp->next;
-        }
-        current->next = NULL;
-        NextCurrent = next;
-        delete NextCurrent;
-        current = NULL;
+            head = current -> next; 
+            delete current;           
+            this->RemoveAll();
     }
+   
 };
 
 //Deletes a number in the list
-ListOfNumbers* ListOfNumbers::Remove (int delete_number)
-{
-    ListOfNumbers* temp;
-    ListOfNumbers* tempNext;
-    ListOfNumbers* previous;
-    previous = this;
-    if (previous -> number == delete_number)
-    {
-        previous = this -> next;
-    }
-    temp = FindR (delete_number);
-    tempNext = temp->next;
-    return temp;
-};
+ListOfNumbers*  ListOfNumbers::Remove(int remValue) {
+   
+    Node* prev = this -> head; 
+    Node* current = this -> head -> next; 
 
-// Class relating to sortlist
-class SortList
-{
-private:
-	ListOfNumbers *head;
-public:
-    SortList (ListOfNumbers* v)
+    if (this == NULL) 
     {
-        head = v;
+        return NULL;
     }
-	void sortList();
-    void PrintList();
-};
-
-void SortList::sortList()
-{
-    // Current points to head
-    ListOfNumbers* current = head;
-    ListOfNumbers* index = NULL;
-    int temp;
-
-    if (head == NULL)
+    else if (prev -> data == remValue) 
     {
-        return;
+        head = current;
+        delete prev;        
     }
-    else
-    {
-        while (current != NULL)
+    else {
+
+        while (current != NULL) 
         {
-            // Node index will point to node next to current
-            index = current->GetNext();
-
-            while (index != NULL)
-            {
-                // The data will be swapped if (current node data) > (index node data)
-                if (current->GetValue() > index->GetValue())
-                {
-                    temp = current->GetValue();
-                    current->SetValue(index->GetValue()); 
-                    index->SetValue(temp);
-                }
-                index = index->GetNext();
+            if (current->data == remValue) 
+            { 
+                prev -> next = current -> next;
+                delete current;
+                break;
             }
-            current = current->GetNext();
+            else 
+            {
+                prev = current;
+                current = current -> next;
+            }
+        }
+        if (current == NULL) {
+            //A: The element is not found and not deleted. Informative message is printed
+            cout << "Can't remove value: no match found.\n";
         }
     }
-}
-// Displays all the nodes present in the list
-void SortList::PrintList()
+};
+
+void ListOfNumbers::SortList() 
 {
-    // Current will point to head
-    ListOfNumbers* current = head;
-    if (head == NULL) // Case where there is nothing in the list
+    // Node current will point to head  
+    int swapp = 1;
+    Node* current;
+    Node* index = NULL;
+
+    //Empty List
+    if (head == NULL) 
     {
-        cout << "The list is empty\n";
         return;
     }
-    while (current != NULL) // Case where the list is not empty
+    else 
     {
-        cout << "Number = " << current->GetValue() << endl;
-        current = current->GetNext();
+        do 
+        {                       
+            swapp = 0;
+            current = head;
+            while (current->next != index) {
+                //If current node's data is greater than index's node data, swap the data between them  
+                if (current->data > current->next->data) 
+                {
+                    Swap(current, current->next);
+                    swapp = 1;
+                }
+                current = current->next;
+            }
+            index = current;
+        } while (swapp);
     }
-    cout << endl;
+}
+void ListOfNumbers::Swap(Node* n1, Node* n2) {
+    Node* prevNode1 = NULL, * prevNode2 = NULL, * node1 = head, * node2 = head, * temp = NULL;
+
+    //Checks if list is empty  
+    if (head == NULL) 
+    {
+        return;
+    }
+
+    //If n1 and n2 are equal, then list will remain the same  
+    if (n1->data == n2->data)
+    {
+        return;
+    }
+    // Search for node1  
+    while (node1 != NULL && node1->data != n1->data) 
+    {
+        prevNode1 = node1;
+        node1 = node1->next;
+    }
+
+    // Search for node2  
+    while (node2 != NULL && node2->data != n2->data) 
+    {
+        prevNode2 = node2;
+        node2 = node2->next;
+    }
+
+    if (node1 != NULL && node2 != NULL) 
+    {
+
+        // If previous node to node1 is not null then, it will point to node2  
+        if (prevNode1 != NULL)
+        {
+            prevNode1->next = node2;
+        }
+        else
+        {
+            head = node2;
+        }
+        // If previous node to node2 is not null then, it will point to node1  
+        if (prevNode2 != NULL)
+        {
+            prevNode2->next = node1;
+        }
+        else
+        {
+            head = node1;
+        }
+        // Swaps the next nodes of node1 and node2  
+        temp = node1->next;
+        node1->next = node2->next;
+        node2->next = temp;
+    }
+    else 
+    {
+        cout << "Swapping is not possible\n";
+    }
 }
