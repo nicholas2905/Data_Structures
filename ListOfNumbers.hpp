@@ -49,18 +49,7 @@ public:
     void RemoveAll();
 
     // Removes a single item in the list
-	ListOfNumbers * Remove (int value);
-
-	void SetValue(int v);
-
-	void SetNext(ListOfNumbers *n);
-
-    // Requests a number
-	int GetValue();
-    ListOfNumbers * GetNext();
-
-	// Prints a single item’s number
-	void PrintItem();
+	void Remove (int value);
 
     // Sorting Method
     void SortList();
@@ -73,6 +62,7 @@ Node::Node()
     data = 0;
     next = NULL;
 };
+
 Node::Node(int v)
 {
     data = v;
@@ -130,17 +120,20 @@ ListOfNumbers::ListOfNumbers(Node * n)
 // Add method (pointer)
 void ListOfNumbers::Add(Node * n)
 {
+    // Case where the list is empty
     if (head == NULL)
     {
-        head = n;
+        head = n; // Adding a node to the head
     }
     else
     {
         Node * current = this -> head;
+        // Until you did not reach the end of the list
         while (current -> next != NULL)
         {
             current = current -> next; // The pointer current will move on to the next
         }
+        current = n;
     }
 };
 
@@ -154,18 +147,22 @@ void ListOfNumbers::Add(int v)
 // Adds a number to the list (recursive) (pointer)
 void ListOfNumbers::AddR(Node * n)
 {
+    // Case where the list is empty
     if (head == NULL)
     {
-        head = n;
+        head = n; // The node will be added to the head
     }
     else
     {
+        // If the next node is empty
         if (head -> next == NULL)
         {
-            head -> next = n;
+            head -> next = n; // The node will be added
         }
+        // If the next node is not empty
         else
         {
+            // You go ahead until you reach the end of the list
             ListOfNumbers * current = new ListOfNumbers(head -> next);
             current -> AddR(n);
         }
@@ -175,45 +172,54 @@ void ListOfNumbers::AddR(Node * n)
 // Adds a number to the list (recursive)
 void ListOfNumbers::AddR(int n)
 {
-    AddR(new Node(n));
+    Node * temp = new Node(n);
+    AddR(temp);
 };
 
 // Finds a number in the list
 Node * ListOfNumbers::Find(int find_number)
 {
     Node * current = this -> head;
+    // Case where the head is the number you want to find
     if (find_number == head -> data)
         {
             return current;
         }
     else
     {
+        // Until you reach the end of the list
         while (current -> next != NULL)
         {
-            current = current -> next;
+            current = current -> next; // Current moves to next
+            // If current is the number you want to find
             if (find_number == current -> data)
             {
                 return current;
             }
         }
+        // You did not find the number
         return NULL;
     }
 };
 
-// inds a number in the list (recursive)
+// Finds a number in the list (recursive)
 Node * ListOfNumbers::FindR(int find_number)
 {
+    // Case where the head is the number you want to find
     if (find_number == head -> data)
         {
-            return this -> head;
+            return this -> head; // Returns the value
         }
     else
     {
+        // If you did not reach the end of the list
         if (head -> next != NULL)
         {
+            // Creates a new list of numbers starting from the next node
             ListOfNumbers * current = new ListOfNumbers(head -> next);
             return current -> FindR(find_number);
         }
+        // If you reached the end of the list without finding the number
         else
         {
             return NULL;
@@ -221,65 +227,81 @@ Node * ListOfNumbers::FindR(int find_number)
     }  
 };  
 
-//Deletes all the items in the list
+// Deletes all the items in the list
 void ListOfNumbers::RemoveAll()
 {
-    Node* current = this->head;   
+    Node * current = head;
+
+    // Case where the list is not empty   
     if (current != NULL)
     {
-            head = current -> next; 
-            delete current;           
-            this->RemoveAll();
-    }
-   
+        // Deletes the first element in the list
+        head = current -> next; 
+        delete current; // Deletes the head from the memory          
+        this -> RemoveAll();
+    }  
 };
 
-//Deletes a number in the list
-ListOfNumbers*  ListOfNumbers::Remove(int remValue) {
-   
-    Node* prev = this -> head; 
-    Node* current = this -> head -> next; 
+// Deletes a number in the list
+void ListOfNumbers::Remove(int remValue) 
+{
+    // Previous is set as the head
+    Node * prev = this -> head;
 
-    if (head == NULL) 
-    {
-        return NULL;
-    }
-    else if (prev -> data == remValue) 
-    {
-        head = current;
-        delete prev;        
-    }
-    else {
+    // Current is set as the next
+    Node * current = this -> head -> next; 
 
+    // Case where the list is not empty
+    if (head != NULL) 
+    {
+    //Case where the head is the node to delete     
+    if (prev -> data == remValue) 
+    {
+        head = current; // Deletes from the list
+        delete prev; // Deletes the requested node from memory
+    }
+    else 
+    {
         while (current != NULL) 
         {
-            if (current->data == remValue) 
+            if (current -> data == remValue) 
             { 
-                prev -> next = current -> next;
-                delete current;
+                // Deletes from list
+                prev -> next = current -> next; // Changes pointer to node after deleted one
+                delete current; // Deletes the requested node from memory
                 break;
             }
             else 
             {
-                prev = current;
-                current = current -> next;
+                prev = current; // Moves previous to the current node
+                current = current -> next; // Moves current to the next node
             }
         }
-        if (current == NULL) {
-            //A: The element is not found and not deleted. Informative message is printed
-            cout << "Can't remove value: no match found.\n";
+        if (current == NULL) 
+        {
+            // The element is not found and not deleted. Informative message is printed
+            cout << "Can't remove the value: no match found.\n";
         }
     }
+    }
+    else
+    {
+        // Case where the list is empty
+        cout << "Can't remove the value: the list is empty.\n";
+    }   
 };
 
 void ListOfNumbers::SortList() 
 {
-    // Node current will point to head  
-    int swapp = 1;
-    Node* current;
-    Node* index = NULL;
+    // Used to exit the while loop
+    int swap_variable;
 
-    //Empty List
+    Node * current;
+
+    // Refers to the tail of the list
+    Node * index = NULL;
+
+    // Case where the list is empty
     if (head == NULL) 
     {
         return;
@@ -288,75 +310,88 @@ void ListOfNumbers::SortList()
     {
         do 
         {                       
-            swapp = 0;
-            current = head;
-            while (current->next != index) {
-                //If current node's data is greater than index's node data, swap the data between them  
-                if (current->data > current->next->data) 
+            
+            swap_variable = 0; // Used for the loop to work
+            current = head; // Current is set to the start of the list
+            while (current -> next != index) 
+            {
+                // If current node's data is greater than index's node data, swap the data between them  
+                if (current -> data > current -> next -> data) 
                 {
-                    Swap(current, current->next);
-                    swapp = 1;
+                    Swap(current, current -> next);
+                    swap_variable = 1; // If the first swap goes, it repeats because list is not ordered
                 }
-                current = current->next;
+                current = current->next; // Current moves forward
             }
-            index = current;
-        } while (swapp);
+            index = current; // Index moves back
+        } while (swap_variable == 1); // While swap_variable = 1 (boolean)
     }
 }
-void ListOfNumbers::Swap(Node* n1, Node* n2) {
-    Node* prevNode1 = NULL, * prevNode2 = NULL, * node1 = head, * node2 = head, * temp = NULL;
+void ListOfNumbers::Swap(Node* a, Node* b) 
+{
+    Node * PrevA = NULL, * PrevB = NULL, * node1 = head, * node2 = head, * temp = NULL;
 
-    //Checks if list is empty  
+    // Case where the list is empty  
     if (head == NULL) 
     {
         return;
     }
 
-    //If n1 and n2 are equal, then list will remain the same  
-    if (n1->data == n2->data)
+    // Case where the nodes are equal  
+    if (a -> data == b -> data)
     {
-        return;
-    }
-    // Search for node1  
-    while (node1 != NULL && node1->data != n1->data) 
-    {
-        prevNode1 = node1;
-        node1 = node1->next;
+        return; // List stays the same
     }
 
-    // Search for node2  
-    while (node2 != NULL && node2->data != n2->data) 
+    // Search for 'a'
+    // While the list is not empty and the data in the node is not what you are looking for  
+    while (node1 != NULL && node1 -> data != a -> data) 
     {
-        prevNode2 = node2;
-        node2 = node2->next;
+        PrevA = node1; // Previous becomes the node before the current
+        node1 = node1 -> next; // Current moves on to the next
     }
 
+    // Search for 'b'
+    // While the list is not empty and the data in the node is not what you are looking for  
+    while (node2 != NULL && node2 -> data != b -> data) 
+    {
+        PrevB = node2; // Previous becomes the node before the current
+        node2 = node2 -> next; // Current moves on to the next
+    }
+
+    // Case where both nodes are not empty
     if (node1 != NULL && node2 != NULL) 
     {
+        // If node1 is not the start of the list
+        if (PrevA != NULL)
+        {
+            PrevA -> next = node2; // Previous will point to node2 now instead of node1 because of the swap
+        }
 
-        // If previous node to node1 is not null then, it will point to node2  
-        if (prevNode1 != NULL)
-        {
-            prevNode1->next = node2;
-        }
+        // If node1 is the start of the list
         else
         {
-            head = node2;
+            head = node2; // Then after the swap node2 will become the new start of the list
         }
-        // If previous node to node2 is not null then, it will point to node1  
-        if (prevNode2 != NULL)
+
+        // If node2 is not the start of the list  
+        if (PrevB != NULL)
         {
-            prevNode2->next = node1;
+            PrevB -> next = node1; // Previous will point to node1 now instead of node2 because of the swap
         }
+
+        // If node2 is the start of the list
         else
         {
-            head = node1;
+            head = node1; // Then after the swap node1 will become the new start of the list
         }
+
         // Swaps the next nodes of node1 and node2  
-        temp = node1->next;
-        node1->next = node2->next;
-        node2->next = temp;
+        temp = node1 -> next; // Temp points to the node after node1
+        node1 -> next = node2 -> next; // The one after node1 becomes what used to be after node2
+        node2 -> next = temp; // node2 inherits temp
     }
+    // If both nodes are empty
     else 
     {
         cout << "Swapping is not possible\n";
